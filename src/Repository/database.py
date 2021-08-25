@@ -1,3 +1,4 @@
+import sys
 import psycopg2
 
 class DataBase:

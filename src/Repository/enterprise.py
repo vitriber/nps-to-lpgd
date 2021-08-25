@@ -1,6 +1,7 @@
+import sys
 from Repository.database import DataBase
 
-class Entreprise:
+class Enterprise:
     def get_all():        
         query = 'select * from "Enterprise"'
         return DataBase.select(query)            

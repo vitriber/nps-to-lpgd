@@ -1,7 +1,7 @@
-from Repository.enterprise import Entreprise as RepositoryEnterprise
-from util import Log
+from Repository.enterprise import Enterprise
+from util import Util
 
-class District:
+class Enterprise:
     def get_all():
         try:
             data = RepositoryEnterprise.get_all()    
@@ -19,6 +19,6 @@ class District:
                 return data[0]
             return {}
         except Exception as ex:            
-            error = "District Service - get_by_id error: {}".format(ex)
+            error = "Enteprise Service - get_by_id error: {}".format(ex)
             Log.print(error, True)
             raise Exception(error)
