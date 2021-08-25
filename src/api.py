@@ -1,5 +1,3 @@
-import sys
-
 import flask
 from flask import request, jsonify
 from Service.enterprise import Enterprise
