@@ -4,7 +4,7 @@ import psycopg2
 class DataBase:
     def get_connection():
         host = 'localhost'
-        database = 'monografia'
+        database = 'postgres'
         user = 'postgres'
         password = '12345'    
         return psycopg2.connect(host=host, database=database, user=user, password=password)   
@@ -32,4 +32,17 @@ class DataBase:
             print("DataBase Error: Query insert error - {}".format(ex), True)
         finally:
             if conn is not None:
-                conn.close()       
+                conn.close()  
+
+    def update(query):
+        try:
+            conn = DataBase.get_connection()
+            cursor = conn.cursor()
+            cursor.execute(query)
+            conn.commit()                        
+            cursor.close()            
+        except Exception as ex:
+            print("DataBase Error: Query update error - {}".format(ex), True)
+        finally:
+            if conn is not None:
+                conn.close()      

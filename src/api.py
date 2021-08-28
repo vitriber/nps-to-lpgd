@@ -1,6 +1,6 @@
 import flask
 from flask import request, jsonify
-from Service.enterprise import Enterprise
+from service.enterprise import Enterprise
 
 class Api:
     app = flask.Flask(__name__)
@@ -19,13 +19,32 @@ class Api:
         Enterprise Controller
     """
 
-    @app.route('/api/v1/enterprise/all', methods=['GET'])
+    @app.route('/api/enterprise/all', methods=['GET'])
     def api_enterprise_all():
         return jsonify(Enterprise.get_all())
 
-    @app.route('/api/enterprise', methods=['GET'])
-    def api_district():    
-        id = 1
+    @app.route('/api/enterprise/:id', methods=['GET'])
+    def api_enterprise():    
+        id = request.values.get("id")
         return jsonify(Enterprise.get_by_id(id))
+
+    @app.route('/api/enterprise', methods=['POST'])
+    def api_enterprise_insert():
+        data = request.json
+        Enterprise.insert_enterprise(data)
+        return('Empresa cadastrada com sucesso')
+    
+    @app.route('/api/enterprise', methods=['PATCH'])
+    def api_enterprise_update():
+        id = request.values.get("id")
+        data = request.json
+        Enterprise.update_enterprise(id, data)
+        return('Empresa atualizada com sucesso')
+    
+    @app.route('/api/enterprise/find-nps', methods=['POST'])
+    def api_find_nps():
+        data = request.json
+        predictedNPS = Enterprise.find_nps(data)
+        return predictedNPS
 
     app.run()
