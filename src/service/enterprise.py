@@ -1,5 +1,6 @@
 from repository.enterprise import Enterprise as RepositoryEnterprise
 from util import Util
+import json
 
 class Enterprise:
     def get_all():
@@ -24,10 +25,11 @@ class Enterprise:
     def find_nps(new):
         try:
             data = RepositoryEnterprise.get_all()
-            predictedNPS = Util.get_nps(data, new)
+            data_json = json.dumps(data)
+            predictedNPS = Util.get_nps(data_json, new)
             if(predictedNPS):
                 return predictedNPS
-            return {}
+            return 'Não foi possível realizar o calculo'
         except Exception as ex:            
             error = "Enteprise Service - find_nps error: {}".format(ex)
             raise Exception(error)
@@ -59,6 +61,7 @@ class Enterprise:
                 question_3,
                 question_4,
                 question_5,
+                question_6,
                 question_7,
                 question_8,
                 question_9,
@@ -103,6 +106,7 @@ class Enterprise:
                 question_3,
                 question_4,
                 question_5,
+                question_6,
                 question_7,
                 question_8,
                 question_9,

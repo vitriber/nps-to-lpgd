@@ -25,6 +25,7 @@ class Enterprise:
         question_3,
         question_4,
         question_5,
+        question_6,
         question_7,
         question_8,
         question_9,
@@ -37,14 +38,15 @@ class Enterprise:
         nps
     ):
         try:
-            query = """INSERT INTO public."Enterprise"(name, question_1, question_2, question_3, question_4, question_5, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, nps)
-                       VALUES (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\'\'{}\', \'{}\', \'{}\', \'{}\'); """.format(
+            query = """INSERT INTO public."Enterprise"(name, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, nps)
+                       VALUES (\'{}\', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}, \'{}\'); """.format(
                             name,
                             question_1, 
                             question_2,
                             question_3,
                             question_4,
                             question_5,
+                            question_6,
                             question_7,
                             question_8,
                             question_9,
@@ -69,6 +71,7 @@ class Enterprise:
         question_3,
         question_4,
         question_5,
+        question_6,
         question_7,
         question_8,
         question_9,
@@ -81,9 +84,25 @@ class Enterprise:
         nps
     ):
         try:
-            query = """UPDATE INTO public."Enterprise"
-                       SET(name, question_1, question_2, question_3, question_4, question_5, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, nps)
-                       VALUES (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\'\'{}\', \'{}\', \'{}\', \'{}\')
+            query = """UPDATE public."Enterprise"
+                       SET
+                           name = \'{}\', 
+                           question_1 = {}, 
+                           question_2 = {}, 
+                           question_3 = {}, 
+                           question_4 = {}, 
+                           question_5 = {},
+                           question_6 = {}, 
+                           question_7 = {}, 
+                           question_8 = {}, 
+                           question_9 = {}, 
+                           question_10 = {}, 
+                           question_11 = {}, 
+                           question_12 = {}, 
+                           question_13 = {}, 
+                           question_14 = {}, 
+                           question_15 = {}, 
+                           nps = {}
                        WHERE id = {}; """.format(
                             name,
                             question_1, 
@@ -91,6 +110,7 @@ class Enterprise:
                             question_3,
                             question_4,
                             question_5,
+                            question_6,
                             question_7,
                             question_8,
                             question_9,
