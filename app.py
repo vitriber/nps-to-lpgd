@@ -6,7 +6,6 @@ import json
 
 class Api:
     app = flask.Flask(__name__)
-    app.config["DEBUG"] = True
     cors = CORS(app, resources={r"/foo": {"origins": "*"}})
     app.config['CORS_HEADERS'] = 'Content-Type'
 
