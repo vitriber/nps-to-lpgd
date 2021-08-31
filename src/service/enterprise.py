@@ -53,6 +53,7 @@ class Enterprise:
             question_14 = enterprise.get('question_14')
             question_15 = enterprise.get('question_15')
             nps = enterprise.get('nps')
+            constant_factor = True
 
             enterprise_to_add = RepositoryEnterprise.add(
                 name, 
@@ -71,7 +72,8 @@ class Enterprise:
                 question_13,
                 question_14,
                 question_15,
-                nps
+                nps,
+                constant_factor
             )
             return enterprise_to_add
         except Exception as ex:            

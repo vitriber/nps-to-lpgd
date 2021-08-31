@@ -35,11 +35,12 @@ class Enterprise:
         question_13,
         question_14,
         question_15,
-        nps
+        nps,
+        constant_factor
     ):
         try:
-            query = """INSERT INTO public."Enterprise"(name, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, nps)
-                       VALUES (\'{}\', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}, \'{}\'); """.format(
+            query = """INSERT INTO public."Enterprise"(name, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, nps, constant_factor)
+                       VALUES (\'{}\', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}, \'{}\', {}); """.format(
                             name,
                             question_1, 
                             question_2,
@@ -56,7 +57,8 @@ class Enterprise:
                             question_13,
                             question_14,
                             question_15,
-                            nps
+                            nps,
+                            constant_factor
                         )
             return DataBase.insert(query)
         except Exception as ex:            

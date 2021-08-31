@@ -1,11 +1,14 @@
 import flask
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 from service.enterprise import Enterprise
 import json
 
 class Api:
     app = flask.Flask(__name__)
     app.config["DEBUG"] = True
+    cors = CORS(app, resources={r"/foo": {"origins": "*"}})
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
     @app.errorhandler(404)
     def page_not_found(e):
@@ -21,31 +24,35 @@ class Api:
     """
 
     @app.route('/api/enterprise/all', methods=['GET'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
     def api_enterprise_all():
         return jsonify(Enterprise.get_all())
 
     @app.route('/api/enterprise/<id>', methods=['GET'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
     def api_enterprise(id):    
         return jsonify(Enterprise.get_by_id(id))
 
     @app.route('/api/enterprise', methods=['POST'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
     def api_enterprise_insert():
         data = request.json
         Enterprise.insert_enterprise(data)
-        return('Empresa adicionada com sucesso!')
+        return(json.dumps('Empresa adicionada com sucesso!'))
     
     @app.route('/api/enterprise/<id>', methods=['PATCH'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
     def api_enterprise_update(id):
         data = request.json
         Enterprise.update_enterprise(id, data)
-        return('Empresa atualizada com sucesso')
+        return(json.dumps('Empresa atualizada com sucesso'))
     
     @app.route('/api/enterprise/find-nps', methods=['POST'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
     def api_find_nps():
         data = request.json
         predictedNPS = Enterprise.find_nps(data)
         data_json = {"nps":predictedNPS}
-        print('Esse é o valor do NPS:', data_json)
         return data_json
 
     app.run()

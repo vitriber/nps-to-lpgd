@@ -27,6 +27,7 @@ class Util:
                     'question_13',
                     'question_14',
                     'question_15',
+                    'constant_factor'
                 ]]
             y = df['nps']
 
@@ -48,6 +49,7 @@ class Util:
             question_13 = (new.get('question_13') and 1) or 0
             question_14 = (new.get('question_14') and 1) or 0
             question_15 = (new.get('question_15') and 1) or 0
+            constant_factor = 1
 
             predictedNPS = regr.predict([[
                 question_1, 
@@ -64,7 +66,8 @@ class Util:
                 question_12,
                 question_13,
                 question_14,
-                question_15,]])
+                question_15,
+                constant_factor]])
 
         except:
             predictedNPS = ""
