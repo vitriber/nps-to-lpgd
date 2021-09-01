@@ -1,12 +1,13 @@
+import os
 import sys
 import psycopg2
 
 class DataBase:
     def get_connection():
-        host = 'localhost'
-        database = 'postgres'
-        user = 'postgres'
-        password = '12345'    
+        host = os.environ.get('DATABASE_URL')
+        database = os.environ.get('DATABASE_NAME')
+        user = os.environ.get('DATABASE_USER')
+        password = os.environ.get('DATABASE_PASSWORD')   
         return psycopg2.connect(host=host, database=database, user=user, password=password)   
 
     def select(query, args=(), one=False):
