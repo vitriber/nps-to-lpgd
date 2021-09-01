@@ -4,7 +4,7 @@ import psycopg2
 
 class DataBase:
     def get_connection():
-        host = os.environ.get('DATABASE_URL')
+        host = os.environ.get('DATABASE')
         database = os.environ.get('DATABASE_NAME')
         user = os.environ.get('DATABASE_USER')
         password = os.environ.get('DATABASE_PASSWORD')   
