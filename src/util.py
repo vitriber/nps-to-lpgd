@@ -7,6 +7,22 @@ import pandas
 from sklearn import linear_model
 
 class Util:
+    def get_field(name, type):
+        try:
+            if (type == 'int'):
+                field = int(request.args.get(name, 0))
+            elif (type == 'float'):
+                field = float(request.args.get(name, 0))
+            elif (type == 'bool'):                
+                field = request.args.get(name, '').lower() in ('true', 'True')                
+            elif (type == 'str'):
+                field = str(request.args.get(name, ''))
+            else:
+                return "Util Error: Type {} not implemented.".format(type)
+        except:
+            field = ""
+        return field
+        
     def get_nps(data, new):
         try:
             df = pandas.read_json(data)
