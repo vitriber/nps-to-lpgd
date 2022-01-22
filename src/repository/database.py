@@ -27,8 +27,11 @@ class DataBase:
             conn = DataBase.get_connection()
             cursor = conn.cursor()
             cursor.execute(query)
-            conn.commit()                        
-            cursor.close()            
+            cursor.lastrowid = cursor.fetchone()[0] 
+            id = cursor.lastrowid
+            conn.commit() 
+            cursor.close()                      
+            return id         
         except Exception as ex:
             print("DataBase Error: Query insert error - {}".format(ex), True)
         finally:

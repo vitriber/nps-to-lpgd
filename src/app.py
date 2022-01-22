@@ -4,7 +4,6 @@ import json
 
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-from flask_sqlalchemy import SQLAlchemy
 
 from util import Util
 
@@ -12,6 +11,8 @@ from service.enterprise import Enterprise
 from service.user import User
 from service.questionary import Questionary
 from service.question import Question
+from service.answer import Answer
+from service.nps import NPS
 
 class Api:
     app = flask.Flask(__name__)
@@ -28,7 +29,7 @@ class Api:
     @app.route('/', methods=['GET'])
     def home():
         return '''<h1>Api to calculate NPS according to answer enterprise</h1>
-    <p>A prototype API to calculate NPS according to answer entreprise</p>'''
+    <p>A prototype of API to calculate NPS according to answer entreprise</p>'''
 
     """ 
         User Controller
@@ -38,10 +39,9 @@ class Api:
     def api_user_all():
         return jsonify(User.get_all())
 
-    @app.route('/api/user', methods=['GET'])
+    @app.route('/api/user/<id>', methods=['GET'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-    def api_user():    
-        id = Util.get_field('id', 'int')
+    def api_user(id):    
         return jsonify(User.get_by_id(id))
 
     @app.route('/api/user', methods=['POST'])
@@ -62,37 +62,30 @@ class Api:
         Enterprise Controller
     """
 
-    @app.route('/api/enterprise/all', methods=['GET'])
+    @app.route('/api/user/enterprise/all', methods=['GET'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
     def api_enterprise_all():
         return jsonify(Enterprise.get_all())
 
-    @app.route('/api/enterprise/<id>', methods=['GET'])
+    @app.route('/api/user/<user_id>/enterprise/', methods=['GET'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-    def api_enterprise(id):    
-        return jsonify(Enterprise.get_by_id(id))
+    def api_enterprise(user_id):    
+        return jsonify(Enterprise.get_by_id(user_id))
 
-    @app.route('/api/enterprise', methods=['POST'])
+    @app.route('/api/user/<user_id>/enterprise/', methods=['POST'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-    def api_enterprise_insert():
+    def api_enterprise_insert(user_id):
         data = request.json
-        Enterprise.insert_enterprise(data)
+        Enterprise.insert_enterprise(user_id, data)
         return(json.dumps('Enterprise created with success!'))
 
-    @app.route('/api/enterprise/<id>', methods=['PATCH'])
+    @app.route('/api/user/<user_id>/enterprise/<id>', methods=['PATCH'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-    def api_enterprise_update(id):
+    def api_enterprise_update(user_id, id):
         data = request.json
-        Enterprise.update_enterprise(id, data)
+        Enterprise.update_enterprise(user_id, id, data)
         return(json.dumps('Enterprise updated with success'))
 
-    @app.route('/api/enterprise/find-nps', methods=['POST'])
-    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-    def api_find_nps():
-        data = request.json
-        predictedNPS = Enterprise.find_nps(data)
-        data_json = {"nps":predictedNPS}
-        return data_json
     
     """ 
         Questionary Controller
@@ -102,10 +95,9 @@ class Api:
     def api_questionary_all():
         return jsonify(Questionary.get_all())
 
-    @app.route('/api/questionary', methods=['GET'])
+    @app.route('/api/questionary/<id>', methods=['GET'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-    def api_questionary():    
-        id = Util.get_field('id', 'int')
+    def api_questionary(id):    
         return jsonify(Questionary.get_by_id(id))
 
     @app.route('/api/questionary', methods=['POST'])
@@ -113,7 +105,7 @@ class Api:
     def api_questionary_insert():
         data = request.json
         Questionary.insert_questionary(data)
-        return(json.dumps('Questionary created with success!'))
+        return(jsonify(Questionary.insert_questionary(data)))
 
     @app.route('/api/questionary/<id>', methods=['PATCH'])
     @cross_origin(origin='*',headers=['Content-Type','Authorization'])
@@ -154,6 +146,42 @@ class Api:
         data = request.json
         Question.update_question(id_questionary, id, data)
         return(json.dumps('Question updated with success'))
+
+    """ 
+        Answer Controller
+    """
+    @app.route('/api/answer/all/<id_questionary>', methods=['GET'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
+    def api_answer_all():
+        id_questionary = Util.get_field('id_questionary', 'int')
+        return jsonify(Answer.get_all_by_questionary_id(id_questionary))
+
+    @app.route('/api/answer/<id_questionary>/<id>', methods=['GET'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
+    def api_answer(): 
+        id_questionary = Util.get_field('id_questionary', 'int')   
+        id = Util.get_field('id', 'int')
+        return jsonify(Answer.get_by_id(id_questionary, id))
+
+    @app.route('/api/answer/<id_questionary>', methods=['POST'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
+    def api_answer_insert():
+        id_questionary = Util.get_field('id_questionary', 'int')
+        data = request.json
+        Answer.insert_answer(id_questionary, data)
+        return(json.dumps('Question created with success!'))
+    
+    """ 
+        NPS Controller
+    """
+
+    @app.route('/api/find-nps/', methods=['POST'])
+    @cross_origin(origin='*',headers=['Content-Type','Authorization'])
+    def api_find_nps():
+        data = request.json
+        predictedNPS = NPS.find_nps(data)
+        data_json = {"nps":predictedNPS}
+        return data_json
 
     if __name__ == '__main__':
         app.run()

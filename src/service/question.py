@@ -1,4 +1,5 @@
 from repository.question import Question as RepositoryQuestion
+from datetime import datetime
 from util import Util
 import json
 
@@ -26,11 +27,13 @@ class Question:
         try:
             name = question.get('name')
             constant_factor = question.get('constant_factor')
+            date_now = datetime.now()
 
             question_to_add = RepositoryQuestion.add(
                 id_questionary,
                 name, 
                 constant_factor,
+                date_now
             )
             return question_to_add
         except Exception as ex:            
@@ -41,12 +44,14 @@ class Question:
         try:
             name = question.get('name')
             constant_factor = question.get('constant_factor')
+            date_now = datetime.now()
 
             user_to_update = RepositoryQuestion.update(
                 id_questionary,
                 id,
                 name, 
-                constant_factor
+                constant_factor,
+                date_now
             )
             return user_to_update
         except Exception as ex:            

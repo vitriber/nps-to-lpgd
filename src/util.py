@@ -25,24 +25,14 @@ class Util:
         
     def get_nps(data, new):
         try:
+            formated_data = []
             df = pandas.read_json(data)
+
+            for question_id in data:
+                        formated_data = [question_id]
             X = df[
                 [
-                    'question_1', 
-                    'question_2',
-                    'question_3',
-                    'question_4',
-                    'question_5',
-                    'question_6',
-                    'question_7',
-                    'question_8',
-                    'question_9',
-                    'question_10',
-                    'question_11',
-                    'question_12',
-                    'question_13',
-                    'question_14',
-                    'question_15',
+                    formated_data,
                     'constant_factor'
                 ]]
             y = df['nps']

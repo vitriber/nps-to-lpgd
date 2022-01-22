@@ -4,7 +4,7 @@ from repository.database import DataBase
 class Enterprise:
     def get_all():
         try:
-            query = 'select * from "Enterprise"'
+            query = 'select * from "enterprise"'
             return DataBase.select(query)           
         except Exception as ex:            
             error = "Enterprise Repository - get_all error: {}".format(ex)
@@ -12,53 +12,25 @@ class Enterprise:
 
     def get_by_id(id): 
         try:             
-            query = 'select * from "Enterprise" where Id = {}'.format(id)
+            query = 'select * from "enterprise" where user_id = {}'.format(id)
             return DataBase.select(query)
         except Exception as ex:            
             error = "Enterprise Repository - get_by_id error: {}".format(ex)
             raise Exception(error)
 
     def add(
+        user_id,
         name,
-        question_1, 
-        question_2,
-        question_3,
-        question_4,
-        question_5,
-        question_6,
-        question_7,
-        question_8,
-        question_9,
-        question_10,
-        question_11,
-        question_12,
-        question_13,
-        question_14,
-        question_15,
-        nps,
-        constant_factor
+        mail,
+        phone,
     ):
         try:
-            query = """INSERT INTO public."Enterprise"(name, question_1, question_2, question_3, question_4, question_5, question_6, question_7, question_8, question_9, question_10, question_11, question_12, question_13, question_14, question_15, nps, constant_factor)
-                       VALUES (\'{}\', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}, \'{}\', {}); """.format(
+            query = """INSERT INTO public."enterprise"(user_id, name, mail, phone)
+                       VALUES ({}, \'{}\', \'{}\', \'{}\'); """.format(
+                            user_id,
                             name,
-                            question_1, 
-                            question_2,
-                            question_3,
-                            question_4,
-                            question_5,
-                            question_6,
-                            question_7,
-                            question_8,
-                            question_9,
-                            question_10,
-                            question_11,
-                            question_12,
-                            question_13,
-                            question_14,
-                            question_15,
-                            nps,
-                            constant_factor
+                            mail,
+                            phone
                         )
             return DataBase.insert(query)
         except Exception as ex:            
@@ -66,63 +38,24 @@ class Enterprise:
             raise Exception(error)
     
     def update(
+        user_id,
         id,
         name,
-        question_1, 
-        question_2,
-        question_3,
-        question_4,
-        question_5,
-        question_6,
-        question_7,
-        question_8,
-        question_9,
-        question_10,
-        question_11,
-        question_12,
-        question_13,
-        question_14,
-        question_15,
-        nps
+        mail,
+        phone
     ):
         try:
-            query = """UPDATE public."Enterprise"
+            query = """UPDATE public."enterprise"
                        SET
+                           user_id = {}
                            name = \'{}\', 
-                           question_1 = {}, 
-                           question_2 = {}, 
-                           question_3 = {}, 
-                           question_4 = {}, 
-                           question_5 = {},
-                           question_6 = {}, 
-                           question_7 = {}, 
-                           question_8 = {}, 
-                           question_9 = {}, 
-                           question_10 = {}, 
-                           question_11 = {}, 
-                           question_12 = {}, 
-                           question_13 = {}, 
-                           question_14 = {}, 
-                           question_15 = {}, 
-                           nps = {}
+                           mail = \'{}\', 
+                           phone = {}, 
                        WHERE id = {}; """.format(
+                            user_id,
                             name,
-                            question_1, 
-                            question_2,
-                            question_3,
-                            question_4,
-                            question_5,
-                            question_6,
-                            question_7,
-                            question_8,
-                            question_9,
-                            question_10,
-                            question_11,
-                            question_12,
-                            question_13,
-                            question_14,
-                            question_15,
-                            nps,
+                            mail, 
+                            phone,
                             id
                         )
             return DataBase.update(query)

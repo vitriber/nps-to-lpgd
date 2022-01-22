@@ -21,14 +21,17 @@ class Question:
     def add(
         id_questionary,
         name,
-        constant_factor
+        constant_factor,
+        date_now
     ):
         try:
-            query = """INSERT INTO public."question"(questionary_id, name,  constant_factor)
-                       VALUES ({},\'{}\', {}); """.format(
+            query = """INSERT INTO public."question"(questionary_id, name, constant_factor, updated_at, created_at)
+                       VALUES ({},\'{}\', {}, \'{}\', \'{}\'); """.format(
                             id_questionary,
                             name,
-                            constant_factor
+                            constant_factor,
+                            date_now,
+                            date_now
                         )
             return DataBase.insert(query)
         except Exception as ex:            
@@ -39,16 +42,19 @@ class Question:
         id_questionary,
         id,
         name,
-        constant_factor
+        constant_factor,
+        date_now
     ):
         try:
             query = """UPDATE public."question"
                        SET
                            name = \'{}\',
-                           constant_factor = {} 
+                           constant_factor = {},
+                           updated_at = \'{}\' 
                        WHERE id = {} and questionary_id = {}; """.format(
                             name,
                             constant_factor,
+                            date_now,
                             id,
                             id_questionary
                         )

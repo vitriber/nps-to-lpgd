@@ -1,6 +1,6 @@
 from repository.questionary import Questionary as RepositoryQuestionary
-from util import Util
-import json
+from repository.questionary_user import QuestionaryUser as RepositoryQuestionaryUser
+from datetime import datetime
 
 class Questionary:
     def get_all():
@@ -22,25 +22,33 @@ class Questionary:
             error = "Questionary Service - get_by_id error: {}".format(ex)
             raise Exception(error)
 
-    def insert_questionary(user):
+    def insert_questionary(enterprise):
         try:
-            name = user.get('name')
+            name_enterprise = enterprise.get('name_enterprise')
+            user_id = enterprise.get('user_id')
+            date_now = datetime.now() 
 
-            questionary_to_add = RepositoryQuestionary.add(
-                name
+            questionary_added_id = RepositoryQuestionary.add(
+                name_enterprise,
+                date_now
             )
-            return questionary_to_add
+
+            print('Esse é o questionary_to_add', questionary_added_id)
+
+            return questionary_added_id
         except Exception as ex:            
             error = "Questionary Service - insert_questionary error: {}".format(ex)
             raise Exception(error)
     
-    def update_questionary(id, user):
+    def update_questionary(id, enterprise):
         try:
-            name = user.get('name')
+            name_enterprise = enterprise.get('name_enterprise')
+            date_now = datetime.now() 
 
             questionary_to_update = RepositoryQuestionary.update(
                 id,
-                name, 
+                name_enterprise,
+                date_now 
             )
             return questionary_to_update
         except Exception as ex:            

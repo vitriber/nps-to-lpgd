@@ -12,7 +12,7 @@ class User:
 
     def get_by_id(id): 
         try:             
-            query = 'select * from "user" where Id = {}'.format(id)
+            query = 'select * from "user" where id = {}'.format(id)
             return DataBase.select(query)
         except Exception as ex:            
             error = "User Repository - get_by_id error: {}".format(ex)
@@ -22,15 +22,17 @@ class User:
         name,
         mail,
         phone,
-        password
+        password,
+        is_admin
     ):
         try:
-            query = """INSERT INTO public."user"(name, mail, phone, password)
-                       VALUES (\'{}\', \'{}\', {}, \'{}\'); """.format(
+            query = """INSERT INTO public."user"(name, mail, phone, password, is_admin)
+                       VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {}); """.format(
                             name,
                             mail,
                             phone,
-                            password
+                            password,
+                            is_admin
                         )
             return DataBase.insert(query)
         except Exception as ex:            
@@ -42,20 +44,23 @@ class User:
         name,
         mail,
         phone,
-        password
+        password,
+        is_admin
     ):
         try:
             query = """UPDATE public."user"
                        SET
                            name = \'{}\', 
                            mail = \'{}\', 
-                           phone = {}, 
-                           password = \'{}\'
+                           phone = \'{}\', 
+                           password = \'{}\',
+                           is_admin = {}
                        WHERE id = {}; """.format(
                             name,
                             mail, 
                             phone,
                             password,
+                            is_admin,
                             id
                         )
             return DataBase.update(query)

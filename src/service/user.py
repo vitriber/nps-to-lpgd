@@ -28,12 +28,14 @@ class User:
             mail = user.get('mail')
             phone = user.get('phone')
             password = user.get('password')
+            is_admin = user.get('is_admin')
 
             user_to_add = RepositoryUser.add(
                 name, 
                 mail,
                 phone,
-                password
+                password,
+                is_admin
             )
             return user_to_add
         except Exception as ex:            
@@ -45,14 +47,16 @@ class User:
             name = user.get('name')
             mail = user.get('mail')
             phone = user.get('phone')
-            password = user.get('phone')
+            password = user.get('password')
+            is_admin = user.get('is_admin')
 
             user_to_update = RepositoryUser.update(
                 id,
                 name, 
                 mail,
                 phone,
-                password
+                password,
+                is_admin
             )
             return user_to_update
         except Exception as ex:            
