@@ -4,7 +4,7 @@ from repository.database import DataBase
 class Questionary:
     def get_all():
         try:
-            query = 'select * from "questionary"'
+            query = 'select * from "questionary" ORDER BY id'
             return DataBase.select(query)           
         except Exception as ex:            
             error = "Questionary Repository - get_all error: {}".format(ex)
@@ -37,7 +37,8 @@ class Questionary:
                             date_now,
                             date_now
                         )
-            return DataBase.insert(query)
+            query_return = "SELECT * FROM questionary ORDER BY id DESC limit 1"
+            return DataBase.insert(query, query_return)
         except Exception as ex:            
             error = "Questionary Repository - add error: {}".format(ex)
             raise Exception(error)

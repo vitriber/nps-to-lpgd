@@ -2,6 +2,14 @@ import sys
 from repository.database import DataBase
 
 class Answer:
+    def get_all():
+        try:
+            query = 'select * from "answer"';
+            return DataBase.select(query)           
+        except Exception as ex:            
+            error = "Answer Repository - get_all error: {}".format(ex)
+            raise Exception(error) 
+
     def get_all_by_questionary_id(id_questionary):
         try:
             query = 'select * from "answer" where questionary_id = {}'.format(id_questionary);
@@ -26,7 +34,7 @@ class Answer:
     ):
         try:
             query = """INSERT INTO public."answer"(questionary_id, question_id, value, updated_at, created_at)
-                       VALUES ({},{}, \'{}\', {}, \'{}\', \'{}\'); """.format(
+                       VALUES ({},{},{},\'{}\',\'{}\'); """.format(
                             id_questionary,
                             id_question,
                             value,

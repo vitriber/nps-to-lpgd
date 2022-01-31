@@ -22,16 +22,18 @@ class DataBase:
         except Exception as ex:
             print("DataBase Error: Query select error - {}".format(ex), True)
 
-    def insert(query):
+    def insert(query, query_return=()):
         try:
             conn = DataBase.get_connection()
             cursor = conn.cursor()
             cursor.execute(query)
-            cursor.lastrowid = cursor.fetchone()[0] 
-            id = cursor.lastrowid
-            conn.commit() 
-            cursor.close()                      
-            return id         
+            conn.commit()
+            if(query_return): 
+                cursor.execute(query_return)
+                my_result = cursor.fetchall()
+                cursor.close()
+                return my_result
+            cursor.close()     
         except Exception as ex:
             print("DataBase Error: Query insert error - {}".format(ex), True)
         finally:

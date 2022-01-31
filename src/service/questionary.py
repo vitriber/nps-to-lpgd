@@ -1,3 +1,7 @@
+import json
+
+from flask import jsonify
+
 from repository.questionary import Questionary as RepositoryQuestionary
 from repository.questionary_user import QuestionaryUser as RepositoryQuestionaryUser
 from datetime import datetime
@@ -28,14 +32,16 @@ class Questionary:
             user_id = enterprise.get('user_id')
             date_now = datetime.now() 
 
-            questionary_added_id = RepositoryQuestionary.add(
+            questionary_to_add = RepositoryQuestionary.add(
                 name_enterprise,
                 date_now
             )
 
-            print('Esse é o questionary_to_add', questionary_added_id)
+            print('Esse é o questionary_to_add', questionary_to_add[0][0])
 
-            return questionary_added_id
+            RepositoryQuestionaryUser.add(user_id, questionary_to_add[0][0])
+
+            return questionary_to_add
         except Exception as ex:            
             error = "Questionary Service - insert_questionary error: {}".format(ex)
             raise Exception(error)

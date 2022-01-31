@@ -34,7 +34,8 @@ class User:
                             password,
                             is_admin
                         )
-            return DataBase.insert(query)
+            query_return = """SELECT * FROM "user" ORDER BY id DESC LIMIT 1"""
+            return DataBase.insert(query, query_return)
         except Exception as ex:            
             error = "User Repository - add error: {}".format(ex)
             raise Exception(error)
@@ -66,4 +67,12 @@ class User:
             return DataBase.update(query)
         except Exception as ex:            
             error = "User Repository - update error: {}".format(ex)
+            raise Exception(error)
+
+    def login(mail): 
+        try:             
+            query = 'SELECT * FROM "user" where "mail" = \'{}\''.format(mail)
+            return DataBase.select(query)
+        except Exception as ex:            
+            error = "User Repository - get_by_id error: {}".format(ex)
             raise Exception(error)
