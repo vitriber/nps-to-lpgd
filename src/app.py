@@ -207,7 +207,7 @@ class Api:
         NPS Controller
     """
 
-    @app.route('/api/find-nps/', methods=['POST'])
+    @app.route('/api/find-nps', methods=['POST'])
     @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
     def api_find_nps():
         data = request.json

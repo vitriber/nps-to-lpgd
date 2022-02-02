@@ -23,6 +23,8 @@ X = df[
     ]]
 y = df['NPS']
 
+print(df, '\n')
+
 regr = linear_model.LinearRegression()
 regr.fit(X, y)
 

@@ -30,14 +30,14 @@ class Questionary:
         try:
             name_enterprise = enterprise.get('name_enterprise')
             user_id = enterprise.get('user_id')
+            nps_value = enterprise.get('nps_value')
             date_now = datetime.now() 
 
             questionary_to_add = RepositoryQuestionary.add(
                 name_enterprise,
+                nps_value,
                 date_now
             )
-
-            print('Esse é o questionary_to_add', questionary_to_add[0][0])
 
             RepositoryQuestionaryUser.add(user_id, questionary_to_add[0][0])
 
@@ -49,11 +49,13 @@ class Questionary:
     def update_questionary(id, enterprise):
         try:
             name_enterprise = enterprise.get('name_enterprise')
+            nps_value = enterprise.get('nps_value')
             date_now = datetime.now() 
 
             questionary_to_update = RepositoryQuestionary.update(
                 id,
                 name_enterprise,
+                nps_value,
                 date_now 
             )
             return questionary_to_update

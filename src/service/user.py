@@ -51,6 +51,7 @@ class User:
             mail = user.get('mail')
             phone = user.get('phone')
             password = user.get('password')
+            password = generate_password_hash(password, method='sha256')
             is_admin = user.get('is_admin')
 
             user_to_update = RepositoryUser.update(
@@ -72,7 +73,7 @@ class User:
             password = user.get("password")
             user_response = RepositoryUser.login(email)
 
-            if not user_response or check_password_hash(user_response[0]['password'], password):
+            if not user_response or not check_password_hash(user_response[0]['password'], password):
                 return {"message": "Email ou senha incorretos"}, 401
 
             access_token = create_access_token(identity=email)
@@ -81,6 +82,7 @@ class User:
                 "id": user_response[0]['id'],
                 "email": user_response[0]['mail'],
                 "is_admin": user_response[0]['is_admin'],
+                "name": user_response[0]['name'],
             }
             return response
         except Exception as ex:            

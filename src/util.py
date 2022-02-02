@@ -5,6 +5,7 @@ from unidecode import unidecode
 from datetime import datetime
 import pandas
 from sklearn import linear_model
+import json
 
 class Util:
     def get_field(name, type):
@@ -23,57 +24,24 @@ class Util:
             field = ""
         return field
         
-    def get_nps(data, new):
+    def get_nps(data, answer):
         try:
-            formated_data = []
-            df = pandas.read_json(data)
+            df = pandas.read_json(json.dumps(data)).fillna(0)
+            keys = list(data[len(data) - 1].keys())
+            keys.remove('nps_value')
 
-            for question_id in data:
-                        formated_data = [question_id]
-            X = df[
-                [
-                    formated_data,
-                    'constant_factor'
-                ]]
-            y = df['nps']
+            X = df[keys]
+            y = df['nps_value']
 
             regr = linear_model.LinearRegression()
             regr.fit(X, y)
 
-            question_1 = (new.get('question_1') and 1) or 0
-            question_2 = (new.get('question_2') and 1) or 0
-            question_3 = (new.get('question_3') and 1) or 0
-            question_4 = (new.get('question_4') and 1) or 0
-            question_5 = (new.get('question_5') and 1) or 0
-            question_6 = (new.get('question_6') and 1) or 0
-            question_7 = (new.get('question_7') and 1) or 0
-            question_8 = (new.get('question_8') and 1) or 0
-            question_9 = (new.get('question_9') and 1) or 0
-            question_10 = (new.get('question_10') and 1) or 0
-            question_11 = (new.get('question_11') and 1) or 0
-            question_12 = (new.get('question_12') and 1) or 0
-            question_13 = (new.get('question_13') and 1) or 0
-            question_14 = (new.get('question_14') and 1) or 0
-            question_15 = (new.get('question_15') and 1) or 0
-            constant_factor = 1
-
-            predictedNPS = regr.predict([[
-                question_1, 
-                question_2,
-                question_3,
-                question_4,
-                question_5,
-                question_6,
-                question_7,
-                question_8,
-                question_9,
-                question_10,
-                question_11,
-                question_12,
-                question_13,
-                question_14,
-                question_15,
-                constant_factor]])
+            format_answers = {}
+            for key in answer:
+                if key['question_id'] not in format_answers:
+                    format_answers['question_' + str(key['question_id'])] = key['value']
+            format_answers["constant_factor"] = 1
+            predictedNPS = regr.predict([list(format_answers.values())])
 
         except:
             predictedNPS = ""

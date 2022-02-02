@@ -28,12 +28,14 @@ class Questionary:
 
     def add(
         name_enterprise,
+        nps_value,
         date_now
     ):
         try:
-            query = """INSERT INTO public."questionary"(name_enterprise, updated_at, created_at)
-                       VALUES (\'{}\', \'{}\', \'{}\'); """.format(
+            query = """INSERT INTO public."questionary"(name_enterprise, nps_value, updated_at, created_at)
+                       VALUES (\'{}\', {}, \'{}\', \'{}\'); """.format(
                             name_enterprise,
+                            nps_value,
                             date_now,
                             date_now
                         )
@@ -46,15 +48,18 @@ class Questionary:
     def update(
         id,
         name_enterprise,
+        nps_value,
         date_now
     ):
         try:
             query = """UPDATE public."questionary"
                        SET
                            name_enterprise = \'{}\',
-                           updated_at = \'{}\'  
+                           nps_value = \'{}\',
+                           updated_at = \'{}\' 
                        WHERE id = {}; """.format(
                             name_enterprise,
+                            nps_value,
                             date_now,
                             id
                         )

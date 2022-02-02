@@ -4,7 +4,7 @@ from repository.database import DataBase
 class User:
     def get_all():
         try:
-            query = 'select * from "user"'
+            query = 'SELECT * FROM "user" ORDER BY id'
             return DataBase.select(query)           
         except Exception as ex:            
             error = "User Repository - get_all error: {}".format(ex)
