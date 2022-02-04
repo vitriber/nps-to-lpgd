@@ -117,6 +117,7 @@ class User:
                 "id": user_to_add[0][0],
                 "email": user_to_add[0][2],
                 "is_admin": user_to_add[0][5],
+                "name": user_to_add[0][1],
             }
             return response
         except Exception as ex:            
